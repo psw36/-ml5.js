@@ -1,0 +1,81 @@
+let bodypix;
+let video;
+let segmentation;
+let userNameInput;
+let userName = "";
+let videoReady = false;
+
+const options = {
+  outputStride: 8,
+  segmentationThreshold: 0.3
+};
+
+function preload() {
+  bodypix = ml5.bodyPix(options);
+}
+
+function setup() {
+  createCanvas(320, 240);
+  background(255);
+
+  // "사람 분할" 텍스트를 표시합니다.
+  fill(0);
+  textSize(20);
+  textAlign(CENTER);
+  text("사람 분할", width / 2, 30);
+
+  // 이름 입력 필드를 생성하고 표시합니다.
+  userNameInput = createInput();
+  userNameInput.position(width / 2 - 100, 60);
+  userNameInput.size(200);
+  userNameInput.attribute('placeholder', '이름을 입력하세요');
+
+  // 이름 입력 이벤트를 설정합니다.
+  userNameInput.changed(startVideo);
+}
+
+function startVideo() {
+  userName = userNameInput.value(); // 입력된 이름을 가져옵니다.
+  userNameInput.remove(); // 입력 필드를 제거합니다.
+
+  video = createCapture(VIDEO, videoReadyCallback);
+  video.size(width, height);
+}
+
+function videoReadyCallback() {
+  videoReady = true;
+  bodypix.segment(video, gotResults); // 비디오가 준비되면 분할을 수행합니다.
+}
+
+function draw() {
+  // 비디오가 준비되지 않았을 때는 캔버스를 보여줍니다.
+  if (!videoReady) {
+    background(255);
+
+    // "사람 분할" 텍스트를 표시합니다.
+    fill(0);
+    textSize(20);
+    textAlign(CENTER);
+    text("사람 분할", width / 2, 30);
+  } else {
+    background(0);
+    if (segmentation) {
+      image(segmentation.backgroundMask, 0, 0, width, height);
+    }
+  }
+
+  // 이름을 비디오 위에 표시합니다.
+  fill(255);
+  textSize(16);
+  textAlign(CENTER);
+  text(userName, width / 2, 20);
+}
+
+function gotResults(error, result) {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  segmentation = result;
+  bodypix.segment(video, gotResults); // 다음 프레임을 위해 다시 분할을 수행합니다.
+}
