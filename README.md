@@ -14,9 +14,8 @@ ml5.js를 과제로 공부하며 벌써 개발된 기술은 방대하게 많고 
 
 dev c++ openGL을 활용한 과제
 ============================
-<p align="center">
-  <img src="https://github.com/psw36/-ml5.js/issues/1#issue-2294819490">
-</p>
+![주전자회전](https://github.com/psw36/-ml5.js/assets/93233300/80c8be39-d9fe-4631-b0a7-d09c4254ec35)
+
 
 *20210811 박신원
  * 코드는 Embarcadero Dev-C++를 통해 작동할 수 있습니다.
