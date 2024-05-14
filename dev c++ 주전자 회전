@@ -1,0 +1,57 @@
+#include <GL/freeglut.h>
+#include <cmath>
+
+float angle_x = 0.0f;
+float angle_y = 0.0f;
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
+    glRotatef(angle_x, 1.0f, 0.0f, 0.0f); // x축 회전
+    glRotatef(angle_y, 0.0f, 1.0f, 0.0f); // y축 회전
+
+    // 몸통
+    glColor3f(0.5f, 0.5f, 0.5f); 
+    glutSolidTeapot(1.0f);
+
+    glutSwapBuffers();
+}
+
+void reshape(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+void update(int value) {
+    angle_x += 1.0f; // x축 회전 속도 조절
+    angle_y += 1.0f; // y축 회전 속도 조절
+    if (angle_x > 360) {
+        angle_x -= 360;
+    }
+    if (angle_y > 360) {
+        angle_y -= 360;
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(16, update, 0); 
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutCreateWindow("Rotating Teapot");
+    glEnable(GL_DEPTH_TEST);
+
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+
+    glutTimerFunc(25, update, 0); 
+
+    glutMainLoop();
+    return 0;
+}
