@@ -59,9 +59,9 @@ SFML 활용
 ===================================
 (테니스 코드 개선)
 
+![테니스-개선](https://github.com/psw36/-ml5.js/assets/93233300/aa0d52b1-b163-49ef-bf75-c70b36304f7e)
 
 
-https://github.com/psw36/-ml5.js/assets/93233300/33a2bd3c-5e40-4bdf-81d0-1b33298ce28e
 
 
 
